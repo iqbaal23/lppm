@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use app\models\Outcome;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -12,6 +13,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\data\ActiveDataProvider;
 
 /**
  * Site controller
@@ -83,12 +85,20 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
+            // return $this->goHome();
             return $this->goHome();
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
+
+            // $dataProvider = new ActiveDataProvider([
+            //     'query' => Outcome::find(),
+            // ]);
+            // return $this->render('//outcome/index', [
+            //     'dataProvider' => $dataProvider,
+            // ]);
         } else {
             $model->password = '';
 
@@ -212,4 +222,14 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionPenelitian()
+    {
+        return $this->render('penelitian');
+    }
+
+    // public function actionOutcome()
+    // {
+    //     return $this->render('outcome');
+    // }
 }
